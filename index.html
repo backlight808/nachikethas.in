@@ -3,9 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nachikethas</title>
+    <title>Captured Moments | Photography</title>
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #faf9f6; /* Soft off-white */
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        /* Layout Container */
+        .container {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+            }
+        }
+
+        /* Slider Container Side */
+        .slider-side {
+            flex: 1;
+            min-height: 50vh;
+            position: relative;
+            overflow: hidden;
+            background-color: #000; /* Fallback */
+        }
+
+        @media (min-width: 768px) {
+            .slider-side {
+                min-height: 100vh;
+                position: sticky;
+                top: 0;
+            }
+        }
+
+        /* Individual Slides */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out; /* Smooth cross-fade */
+        }
+
+        /* Active Slide */
+        .slide.active {
+            opacity: 1;
+        }
+
+        /* Content Section */
+        .content-side {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 3rem 2rem;
+            z-index: 2; /* Keeps text above overlapping elements if any */
+        }
+
+        @media (min-width: 1024px) {
+            .content-side {
+                padding: 5rem 4rem;
+            }
+        }
+
+        /* Typography */
+        header h1 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        main {
+            margin: 4rem 0;
+            max-width: 480px;
+        }
+
+        main h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        main p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        /* Links & Buttons */
+        .cta-link {
+            display: inline-block;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid #1a1a1a;
+            padding-bottom: 4px;
+            transition: opacity 0.2s ease;
+        }
+
+        .cta-link:hover {
+            opacity: 0.6;
+        }
+
+        /* Footer / Social Navigation */
+        footer ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        footer a {
+            text-decoration: none;
+            color: #888;
+            font-size: 0.85rem;
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: #1a1a1a;
+        }
+    </style>
 </head>
 <body>
-    HI
+
+    <div class="container">
+        
+        <div class="slider-side" aria-label="Photography slideshow">
+            <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&w=1200&auto=format&fit=crop');"></div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1200&auto=format&fit=crop');"></div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1505118380757-91f5f5632de0?q=80&w=1200&auto=format&fit=crop');"></div>
+        </div>
+
+        <div class="content-side">
+            
+            <header>
+                <h1>Perspective.</h1>
+            </header>
+
+            <main>
+                <h2>Chasing light, geometry, and quiet moments.</h2>
+                <p>A personal visual journal documenting the intersections of nature, scale, and quiet landscapes. Just exploring the world through an 85mm lens.</p>
+                <a href="#gallery" class="cta-link">View the Journal</a>
+            </main>
+
+            <footer>
+                <ul>
+                    <li><a href="#instagram">Instagram</a></li>
+                    <li><a href="#vsco">VSCO</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </footer>
+
+        </div>
+
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+        const slideInterval = 4000; // Time each image stays on screen (4000ms = 4 seconds)
+
+        function nextSlide() {
+            // Remove active class from current slide
+            slides[currentSlide].classList.remove('active');
+            
+            // Move to next slide index, looping back to 0 at the end
+            currentSlide = (currentSlide + 1) % slides.length;
+            
+            // Add active class to new slide
+            slides[currentSlide].classList.add('active');
+        }
+
+        // Run the nextSlide function automatically at regular intervals
+        setInterval(nextSlide, slideInterval);
+    </script>
+
 </body>
 </html>
