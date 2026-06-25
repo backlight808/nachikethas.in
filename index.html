@@ -126,6 +126,39 @@
             opacity: 0.6;
         }
 
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            border: 1px solid #ddd;
+            background: #fff;
+            color: #1a1a1a;
+            padding: 0.9rem 1.4rem;
+            border-radius: 999px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .tab-btn.active {
+            border-color: #1a1a1a;
+            background: #f3f3f1;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         /* Footer / Social Navigation */
         footer ul {
             list-style: none;
@@ -159,19 +192,30 @@
             
             <header>
                 <h1>Perspective.</h1>
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="personal">Personal</button>
+                    <button class="tab-btn" data-tab="professional">Professional</button>
+                </div>
             </header>
 
             <main>
-                <h2>Chasing light, geometry, and quiet moments.</h2>
-                <p>A personal visual journal documenting the intersections of nature, scale, and quiet landscapes. Just exploring the world through an 85mm lens.</p>
-                <a href="#gallery" class="cta-link">View the Journal</a>
+                <div id="personal" class="tab-content active">
+                    <h2>Chasing light, geometry, and quiet moments.</h2>
+                    <p>A personal visual journal documenting the intersections of nature, scale, and quiet landscapes. Just exploring the world through an 85mm lens.</p>
+                    <a href="journal.html" class="cta-link">View the Journal</a>
+                </div>
+                <div id="professional" class="tab-content">
+                    <h2>Senior Tech Lead</h2>
+                    <p>Professional summary and career overview for a seasoned technical leader with a strong focus on operational excellence, team enablement, and scalable delivery.</p>
+                    <a href="cv.html" class="cta-link">Explore Professional Life</a>
+                </div>
             </main>
 
             <footer>
                 <ul>
-                    <li><a href="#instagram">Instagram</a></li>
-                    <li><a href="#vsco">VSCO</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">X | Twitter</a></li>
+                    <li><a href="#">Threads</a></li>
                 </ul>
             </footer>
 
@@ -197,6 +241,19 @@
 
         // Run the nextSlide function automatically at regular intervals
         setInterval(nextSlide, slideInterval);
+
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                button.classList.add('active');
+                document.getElementById(button.dataset.tab).classList.add('active');
+            });
+        });
     </script>
 
 </body>
