@@ -90,6 +90,90 @@
             max-width: 48rem;
             color: #555;
         }
+        .photo-section {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+        .photo-section.reverse {
+            flex-direction: row-reverse;
+        }
+        .photo-text {
+            flex: 1 1 320px;
+            min-width: 260px;
+        }
+        .photo-text .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: #888;
+            font-size: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .photo-text h2 {
+            font-size: clamp(1.5rem, 2.2vw, 2rem);
+            margin-bottom: 0.9rem;
+            line-height: 1.1;
+        }
+        .photo-text p {
+            color: #4a4a4a;
+            max-width: 42rem;
+        }
+        .collage-grid {
+            flex: 1 1 420px;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(140px, 1fr));
+            grid-auto-rows: 160px;
+            gap: 0.9rem;
+            min-width: 260px;
+        }
+        .collage-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 28px;
+            box-shadow: 0 18px 36px rgba(22, 18, 12, 0.08);
+            background: #ece8e1;
+        }
+        .collage-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+        .collage-item figcaption {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 0.75rem 1rem;
+            color: #ffffff;
+            font-size: 0.85rem;
+            line-height: 1.35;
+            background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+        .collage-item:hover figcaption {
+            opacity: 1;
+        }
+        .collage-item.wide {
+            grid-column: 1 / -1;
+        }
+        .collage-item.tall {
+            grid-row: span 2;
+        }
+        .collage-item {
+            background: #ece8e1;
+        }
+        .collage-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            display: block;
+        }
         .footer {
             margin-top: 3rem;
             padding-top: 2rem;
@@ -97,10 +181,96 @@
             color: #777;
             font-size: 0.95rem;
         }
+        @media (max-width: 900px) {
+            .photo-section {
+                flex-direction: column;
+            }
+            .collage-grid {
+                grid-template-columns: repeat(2, minmax(140px, 1fr));
+                grid-auto-rows: 140px;
+            }
+            .collage-item.wide {
+                grid-column: auto;
+            }
+        }
         @media (max-width: 600px) {
             .page {
                 padding: 1.5rem;
             }
+            .collage-grid {
+                grid-template-columns: 1fr;
+                grid-auto-rows: 180px;
+            }
+        }
+        .photo-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(18, 18, 18, 0.78);
+            backdrop-filter: blur(4px);
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            z-index: 999;
+        }
+        .photo-modal.active {
+            display: grid;
+        }
+        .polaroid-card {
+            position: relative;
+            max-width: 760px;
+            width: min(100%, 720px);
+            background: #fff;
+            border: 1px solid #e4dfd7;
+            border-radius: 26px;
+            padding: .5rem .5rem .2rem;
+            box-shadow: 0 40px 90px rgba(10, 10, 10, 0.25);
+            text-align: center;
+        }
+        .polaroid-card::after {
+            content: "";
+            position: absolute;
+            inset: 0.8rem 0.75rem 1.8rem;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 20px;
+            pointer-events: none;
+        }
+        .polaroid-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            border: none;
+            border-radius: 50%;
+            background: rgba(31, 31, 31, 0.08);
+            color: #1f1f1f;
+            font-size: 1.3rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .polaroid-photo {
+            width: 100%;
+            max-height: 68vh;
+            overflow: hidden;
+            border-radius: 20px;
+            background: #f6f3ed;
+            margin-bottom: 1.1rem;
+        }
+        .polaroid-photo img {
+            width: 100%;
+            height: auto;
+            max-height: 68vh;
+            object-fit: contain;
+            display: block;
+        }
+        .polaroid-caption {
+            font-family: "Brush Script MT", "Segoe Script", cursive;
+            color: #2a2a2a;
+            font-size: 2rem;
+            margin: 0;
+            padding: 0 0.5rem;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -114,7 +284,6 @@
             <p>Short reflections on visual craft, observational practice, and the quiet influence of form and environment. A minimal journal for creative process and personal interest.</p>
             <div class="nav-links">
                 <a href="index.html">Back to Personal</a>
-                <a href="cv.html">View Professional CV</a>
             </div>
         </header>
 
@@ -122,27 +291,101 @@
             <p>Exploring photography and design through concise journal entries that connect the sensory details of composition with a calm, considered approach. The style is minimal, focused, and shaped around professional interests in visual structure.</p>
         </section>
 
-        <section class="grid">
-            <article class="card">
-                <h2>Light as architecture</h2>
-                <p>Photography is often about the way light shapes space. In quiet landscapes, this means letting shadows define form while preserving the simplicity of the frame.</p>
-                <time>June 2026</time>
-            </article>
-            <article class="card">
-                <h2>Geometry in the everyday</h2>
-                <p>Ordinary scenes can become compelling when framed around patterns and contrast. Finding order in the details is a practice of both craft and patience.</p>
-                <time>May 2026</time>
-            </article>
-            <article class="card">
-                <h2>Slow observation</h2>
-                <p>Taking time to observe creates more purposeful work. Quiet moments in the field often lead to stronger visual decisions and clearer narrative direction.</p>
-                <time>April 2026</time>
-            </article>
+        <section class="photo-section">
+            <div class="photo-text">
+                <span class="eyebrow">Section 1</span>
+                <h2>Luminous stillness and quiet color</h2>
+                <p>Fragments of light and texture appear when composition is allowed to breathe. This sequence highlights subtle changes in tone and the geometry of everyday surfaces.</p>
+            </div>
+            <div class="collage-grid">
+                <div class="collage-item wide"><figure><img src="src/images/moon.jpeg" alt="Moonlit texture"><figcaption>Moonlit texture on a quiet surface.</figcaption></figure></div>
+                <div class="collage-item"><figure><img src="src/images/ant.jpeg" alt="Close-up natural texture"><figcaption>Macro pattern with organic detail.</figcaption></figure></div>
+                <div class="collage-item"><figure><img src="src/images/bird.jpeg" alt="Bird in abstract scene"><figcaption>Soft motion captured in a fleeting frame.</figcaption></figure></div>
+                <div class="collage-item"><figure><img src="src/images/fire2.jpeg" alt="Warm composition"><figcaption>Warm light across a layered landscape.</figcaption></figure></div>
+                <div class="collage-item"><figure><img src="src/images/fire3.jpeg" alt="Circular pattern"><figcaption>Rounded contrast with a sculptural feel.</figcaption></figure></div>
+            </div>
+        </section>
+
+        <section class="photo-section reverse">
+            <div class="photo-text">
+                <span class="eyebrow">Section 2</span>
+                <h2>Rhythms in form and texture</h2>
+                <p>Paired elements create a sense of movement. Here, the collage balances denser shapes with open highlights to make the eye travel across the composition.</p>
+            </div>
+            <div class="collage-grid">
+                <div class="collage-item tall"><figure><img src="src/images/fire4.jpeg" alt="Evening glow"><figcaption>Evening glow softens hard edges.</figcaption></figure></div>
+                <div class="collage-item"><figure><img src="src/images/moon.jpeg" alt="Soft abstract space"><figcaption>Soft space with gentle tonal shifts.</figcaption></figure></div>
+                <div class="collage-item"><figure><img src="src/images/ant.jpeg" alt="Macro detail"><figcaption>Macro focus on structured texture.</figcaption></figure></div>
+                <div class="collage-item wide"><figure><img src="src/images/fire2.jpeg" alt="Warm and cool contrast"><figcaption>Warm and cool tones in parallel.</figcaption></figure></div>
+            </div>
+        </section>
+
+        <section class="photo-section">
+            <div class="photo-text">
+                <span class="eyebrow">Section 3</span>
+                <h2>Visual calm through small edits</h2>
+                <p>Each group of images is arranged like a study. The goal is to keep variations gentle while still emphasizing a crafted sense of shape, scale, and subtle tension.</p>
+            </div>
+            <div class="collage-grid">
+                <div class="collage-item wide"><figure><img src="src/images/fire3.jpeg" alt="Minimal warm surface"><figcaption>Minimal warm surface and quiet structure.</figcaption></figure></div>
+                <div class="collage-item"><figure><img src="src/images/fire4.jpeg" alt="Soft warm glow"><figcaption>Soft glow revealing subtle contrasts.</figcaption></figure></div>
+                <div class="collage-item"><figure><img src="src/images/moon.jpeg" alt="Landscape details"><figcaption>Abstract landscape detail in calm light.</figcaption></figure></div>
+                <div class="collage-item"><figure><img src="src/images/ant.jpeg" alt="Organic form"><figcaption>Organic form and structural rhythm.</figcaption></figure></div>
+                <div class="collage-item"><figure><img src="src/images/bird.jpeg" alt="Clean curved shape"><figcaption>Clean curved shape with quiet balance.</figcaption></figure></div>
+            </div>
         </section>
 
         <div class="footer">
-            <p>Keep the layout minimal and let the content breathe. This journal page sits alongside personal interests while offering a clean entry point to your professional work.</p>
         </div>
     </div>
+
+    <div class="photo-modal" id="photoModal" aria-hidden="true">
+        <div class="polaroid-card" role="dialog" aria-modal="true">
+            <button class="polaroid-close" id="modalClose" aria-label="Close photo">×</button>
+            <div class="polaroid-photo">
+                <img id="modalImage" src="" alt="Expanded photo">
+            </div>
+            <p class="polaroid-caption" id="modalCaption"></p>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('photoModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalCaption = document.getElementById('modalCaption');
+        const modalClose = document.getElementById('modalClose');
+
+        document.querySelectorAll('.collage-item figure img').forEach((image) => {
+            image.addEventListener('click', () => {
+                const figure = image.closest('figure');
+                const caption = figure?.querySelector('figcaption')?.textContent || image.alt || '';
+                modalImage.src = image.src;
+                modalImage.alt = image.alt || 'Expanded photo';
+                modalCaption.textContent = caption;
+                modal.classList.add('active');
+                modal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        const closeModal = () => {
+            modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        };
+
+        modalClose.addEventListener('click', closeModal);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    </script>
 </body>
 </html>

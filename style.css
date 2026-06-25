@@ -36,7 +36,7 @@ body {
 
 /* --- Utilities --- */
 .section {
-    padding: 1rem 0;
+    padding: 6rem 0;
 }
 .divider {
     border: 0;
@@ -224,7 +224,7 @@ body {
 }
 .impact-num {
     display: block;
-    font-size: 1.5rem;
+    font-size: 2.25rem;
     font-weight: 700;
     color: var(--accent);
     margin-bottom: 0.75rem;
@@ -321,7 +321,7 @@ body {
 }
 .email-link {
     display: inline-block;
-    font-size: 1rem;
+    font-size: 2rem;
     font-weight: 700;
     color: var(--text-main);
     text-decoration: none;
@@ -372,84 +372,163 @@ body {
     .nav-links a:not(.btn) { display: none; } /* Kept simple for mobile context */
 }
 
-/* --- Print Styles --- */
+/* Print styling for CV output */
 @media print {
-    @page {
-        size: A4;
-        margin: 1.2cm;
-    }
-
-    html, body {
-        background: #ffffff !important;
-        color: #000000 !important;
-    }
-
-    body {
-        -webkit-print-color-adjust: exact;
+    :root {
+        color-scheme: light;
         print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    html,
+    body {
+        width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+        color: #000 !important;
+    }
+
+    * {
+        box-shadow: none !important;
+        text-shadow: none !important;
+        background: transparent !important;
+    }
+
+    .container,
+    .containers,
+    .content-side,
+    main {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: block !important;
     }
 
     .header,
-    .nav,
-    .nav-links,
-    .hero-cta,
-    .btn,
     .footer,
+    .hero-cta,
+    .nav-links,
     .social-links,
-    .divider {
+    .divider,
+    .slider-side,
+    .btn,
+    .btn-secondary,
+    .btn-link {
         display: none !important;
     }
 
-    .containers {
-        max-width: 100% !important;
-        padding: 0 !important;
-    }
-
     .section {
-        padding: 1rem 0 !important;
+        display: block !important;
+        width: 100% !important;
+        padding: 0.75rem 0 !important;
+        page-break-inside: auto !important;
+        break-inside: avoid-page !important;
     }
 
     .section-title {
-        margin-bottom: 1rem !important;
-        font-size: 1.5rem !important;
+        font-size: 1.2rem !important;
+        margin-bottom: 0.75rem !important;
     }
 
     .hero-title {
-        font-size: 2rem !important;
+        font-size: 1.25rem !important;
+        margin-bottom: 0.5rem !important;
     }
 
     .hero-subtitle,
     .summary-text,
-    .job-details li,
     .impact-card p,
-    .skills-category p,
+    .job-details li,
+    .metric-label,
+    .company,
+    .date,
     .contact-text,
     .email-link {
-        color: #000000 !important;
+        color: #000 !important;
     }
 
-    .fade-in {
+    .hero-highlights,
+    .summary-highlights {
+        display: block !important;
+        margin-bottom: 1rem !important;
+        gap: 0.5rem !important;
+    }
+
+    .hero-highlights li,
+    .summary-highlights li {
+        font-size: 0.92rem !important;
+        padding-left: 1.2rem !important;
+    }
+
+    .skill-chip {
+        display: inline-block !important;
+        border: 1px solid #777 !important;
+        background: #fff !important;
+        color: #000 !important;
+        padding: 0.3rem 0.6rem !important;
+        margin-bottom: 0.35rem !important;
+    }
+
+    .skills-grid,
+    .impact-grid,
+    .metrics,
+    .timeline {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+
+    .skills-category,
+    .impact-card,
+    .timeline-item,
+    .metric-card {
+        border: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+    }
+
+    .job-details {
+        padding-left: 0 !important;
+    }
+
+    .job-details li {
+        margin-bottom: 0.4rem !important;
+    }
+
+    .email-link {
+        font-size: 1rem !important;
+        font-weight: 600 !important;
+    }
+
+    .skill-list {
+        display: block !important;
+    }
+
+    .fade-in,
+    .fade-in.visible {
         opacity: 1 !important;
         transform: none !important;
+        visibility: visible !important;
+        transition: none !important;
     }
 
-    .impact-card,
-    .skills-category,
+    .section,
     .timeline-item,
-    .contact,
-    .summary,
-    .impact,
-    .skills,
-    .experience {
+    .impact-card,
+    .metric-card {
         page-break-inside: avoid !important;
     }
 
-    .metric-card,
-    .impact-card,
-    .skills-category,
-    .timeline-item {
-        border: 1px solid #ddd !important;
-        box-shadow: none !important;
-        background: #ffffff !important;
+    a[href]:after {
+        content: " (" attr(href) ")" !important;
+        font-size: 0.85rem !important;
+        color: #000 !important;
+    }
+
+    @page {
+        margin: 20mm;
+        size: auto;
     }
 }
